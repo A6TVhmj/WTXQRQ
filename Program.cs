@@ -5,7 +5,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-
 namespace AdbFileUploader
 {
     public partial class MainForm : Form
@@ -42,7 +41,7 @@ namespace AdbFileUploader
             UpdateFileList();
             this.Icon = new Icon("icon.ico");
             // 初始化提示说明默认文本
-            txtTips.Text = "传输文件前，请先按照下列步骤开启ADB调试：\r\n1. 打开青鹿-头像-联系我们，长按电话号码，选择拨打电话。\r\n2. 输入*#*#83781#*#*\r\n在上方菜单中的第一项 TELEPHONY 中下滑找到 USB接口激活，打开\r\n在第二项DEBUG&LOG中找到USB Debug，打开\r\n3. 使用数据线连接电脑，打开本程序，平板应该会提示：是否使用本台计算机调试，勾选一律使用，点确定\r\n4. 重启软件，Having fun";
+            txtTips.Text = "传输文件前，请先按照下列步骤开启ADB调试：\r\n1. 打开青鹿-头像-联系我们，长按电话号码，选择拨打电话。\r\n2. 输入*#*#83781#*#*\r\n在上方菜单中的第一项 TELEPHONY 中下滑找到 USB接口激活，打开\r\n在第二项DEBUG&LOG中找到USB Debug，打开\r\n3. 使用数据线连接电脑，打开本程序，平板应该会提示：是否使用本台计算机调试，勾选一律使用，点确定\r\n4. 重启软件，Having fun \r\n 彩蛋：这个提示可以删除";
         }
         private void btnAddFile_Click(object sender, EventArgs e)
         {
@@ -353,7 +352,36 @@ namespace AdbFileUploader
             }
             base.Dispose(disposing);
         }
+        private void uploadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // 触发上传按钮的点击事件
+            btnUpload_Click(sender, e);
+        }
 
+        
+        private void neteaseMusicToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var downloaderForm = new NeteaseMusicDownloaderForm())
+            {
+                downloaderForm.FilesDownloaded += (files) =>
+                {
+                    // 将下载的文件添加到上传列表
+                    foreach (var file in files)
+                    {
+                        if (!_uploadFiles.Contains(file))
+                        {
+                            _uploadFiles.Add(file);
+                        }
+                    }
+                    UpdateFileList();
+                };
+                downloaderForm.ShowDialog(this);
+            }
+        }
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
         private void InitializeComponent()
         {
             this.label2 = new System.Windows.Forms.Label();
@@ -488,6 +516,43 @@ namespace AdbFileUploader
             this.txtTips.Size = new System.Drawing.Size(527, 100);
             this.txtTips.TabIndex = 15;
             // 
+            // menuStrip
+            // 
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(580, 25);
+            this.menuStrip.TabIndex = 16;
+            this.menuStrip.Text = "menuStrip";
+
+
+            // 
+            // neteaseMusicToolStripMenuItem
+            // 
+            this.neteaseMusicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.neteaseMusicToolStripMenuItem.Name = "neteaseMusicToolStripMenuItem";
+            this.neteaseMusicToolStripMenuItem.Size = new System.Drawing.Size(140, 21);
+            this.neteaseMusicToolStripMenuItem.Text = "从网易云音乐下载";
+            this.neteaseMusicToolStripMenuItem.Click += new System.EventHandler(this.neteaseMusicToolStripMenuItem_Click);
+
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(56, 21);
+            this.exitToolStripMenuItem.Text = "退出";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+
+            // 将菜单项直接添加到菜单栏（不是作为子项）
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+                this.neteaseMusicToolStripMenuItem,
+                this.exitToolStripMenuItem});
+
+            // 将菜单栏添加到窗体
+            this.MainMenuStrip = this.menuStrip;
+            this.Controls.Add(this.menuStrip);
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Transparent;
@@ -619,6 +684,9 @@ namespace AdbFileUploader
         private Label label4;
         private TextBox txtTips;
         private Panel panel1;
+        private MenuStrip menuStrip;
+        private ToolStripMenuItem neteaseMusicToolStripMenuItem;
+        private ToolStripMenuItem exitToolStripMenuItem;
     }
 
     static class Program
