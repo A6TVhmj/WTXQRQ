@@ -1,9 +1,9 @@
 # WTXQRQ
-**W**ired_**T**ransfer_e**X**pedite_**Q**uick_**R**emote_**Q**uest is A tool of transfering files from adb
+$\huge W$ ired_ $\huge T$ ransfer_e $\huge X$ pedite_ $\huge Q$ uick_ $\huge R$ emote_ $\huge Q$ uest is A tool of transfering files from adb
 
-# How 2 use it
+# How $\lvert 2-4 \rvert$ use it
 
-Download from the release
+Download from the release 
 
 # 使用方法：
 
