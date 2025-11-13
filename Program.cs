@@ -358,7 +358,7 @@ namespace AdbFileUploader
             btnUpload_Click(sender, e);
         }
 
-        
+
         private void neteaseMusicToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var downloaderForm = new NeteaseMusicDownloaderForm())
